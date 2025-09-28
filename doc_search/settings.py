@@ -133,4 +133,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 ##GOOGLE_API_KEY =os.getenv('GOOGLE_API_KEY') ## Enter your google api key
-GOOGLE_CSE_ID = os.getenv('GOOGLE_CSE_ID')  ## Enter you google cse id
+##GOOGLE_CSE_ID = os.getenv('GOOGLE_CSE_ID')  ## Enter you google cse id

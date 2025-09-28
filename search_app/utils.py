@@ -9,6 +9,7 @@ def get_next_google_api_keys():
 
     active_keys = GoogleAPIKeys.objects.filter(status='active').order_by('last_used')
 
+
     if not active_keys:
         raise Exception('No active Google API keys found')
 
@@ -75,7 +76,7 @@ def search_query(query, document_types=None):
                 retry_count += 1
                 continue
 
-        api_url = f"https://www.googleapis.com/customsearch/v1?q={filtered_query}&key={current_key.key}&cx={settings.GOOGLE_CSE_ID}"
+        api_url = f"https://www.googleapis.com/customsearch/v1?q={filtered_query}&key={current_key.key}&cx={current_key.cse_id}"
 
         response = requests.get(api_url)
 

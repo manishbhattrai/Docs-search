@@ -11,6 +11,7 @@ class GoogleAPIKeys(models.Model):
     ]
 
     key = models.CharField(max_length=120)
+    cse_id = models.CharField(max_length=120, null=True, blank=True)
     status = models.CharField(choices=KEY_STATUS, default='active', max_length=10)
     usage_count = models.IntegerField(default=0)
     last_used = models.DateTimeField(auto_now=True)
