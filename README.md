@@ -2,7 +2,9 @@
 
 This project integrates the Google Custom Search API to perform advanced searches for different file type like PDF, DOCX etc with automatic key rotation. It allows admin to manage multiple API keys and Custom Search Engine (CSE) IDs directly from the django admin panel. When a key reaches its quota or encounters an error, the system automatically switches to the next available key, ensuring continuous search functionality.
 
+## Screenshot
 
+![img.png](img.png)
 ## Installation
 
 ### Prerequisites

@@ -7,6 +7,15 @@ from .models import GoogleAPIKeys
 
 def get_next_google_api_keys():
 
+    keys = GoogleAPIKeys.objects.filter(status='inactive')
+
+    for key in keys:
+        deactivated_time = timezone.now() - key.deactivated_at
+        if deactivated_time >= timedelta(hours=24):
+            key.status = 'active'
+            key.deactivated_at = None
+            key.save()
+
     active_keys = GoogleAPIKeys.objects.filter(status='active').order_by('last_used')
 
 
@@ -64,7 +73,7 @@ def search_query(query, document_types=None):
             print(f'Error getting Google API keys: {e}')
             return []
 
-        if current_key.status == 'inactive' and current_key.deactivated_at:
+        '''if current_key.status == 'inactive' and current_key.deactivated_at:
             deactivated_time = timezone.now() - current_key.deactivated_at
             if deactivated_time >= timedelta(hours=24):
 
@@ -74,7 +83,7 @@ def search_query(query, document_types=None):
 
             else:
                 retry_count += 1
-                continue
+                continue'''
 
         api_url = f"https://www.googleapis.com/customsearch/v1?q={filtered_query}&key={current_key.key}&cx={current_key.cse_id}"
 
