@@ -2,10 +2,13 @@ from django.shortcuts import render
 from .forms import SearchForm
 from .models import GoogleAPIKeys
 from .utils import  search_query
+import logging
 
 # Create your views here.
 
 
+
+logger = logging.getLogger(__name__)
 
 def doc_search(request):
 
@@ -20,7 +23,8 @@ def doc_search(request):
                 results = search_query(query)
 
             except Exception as e:
-                print(f"Error: {e}")
+                logging.error(f"Error: {e}")
+                ##print(f"Error: {e}")
     
     else:
         form = SearchForm()

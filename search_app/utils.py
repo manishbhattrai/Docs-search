@@ -3,6 +3,11 @@ from datetime import timedelta
 import requests
 from django.conf import settings
 from .models import GoogleAPIKeys
+import logging
+
+
+
+logger = logging.getLogger(__name__)
 
 
 def get_next_google_api_keys():
@@ -20,7 +25,9 @@ def get_next_google_api_keys():
 
 
     if not active_keys:
+        logger.info('No active Google API keys found')
         raise Exception('No active Google API keys found')
+
 
     selected_key = active_keys[0]
 
@@ -70,7 +77,8 @@ def search_query(query, document_types=None):
             current_key = get_next_google_api_keys()
 
         except Exception as e:
-            print(f'Error getting Google API keys: {e}')
+            logger.error(f'Error getting next google api key: {e}')
+            ##print(f'Error getting Google API keys: {e}')
             return []
 
         '''if current_key.status == 'inactive' and current_key.deactivated_at:
@@ -90,6 +98,8 @@ def search_query(query, document_types=None):
         response = requests.get(api_url)
 
         if response.status_code == 200:
+
+            logger.info(f'Got response: {response}')
             search_results = response.json()
             return search_results.get('items',[])
 
@@ -100,7 +110,8 @@ def search_query(query, document_types=None):
             retry_count += 1
 
         else:
-            print(f'Error getting Google API keys: {response.status_code}')
+            logger.error(f'Error getting next google api key: {response.status_code}')
+            ##print(f'Error getting Google API keys: {response.status_code}')
 
 
     return []
